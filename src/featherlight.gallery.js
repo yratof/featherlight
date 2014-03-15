@@ -44,14 +44,21 @@
 							fl.$elm = $nx;
 							$img[0].src = $nx.attr('href');
 						});
-					var createNav = function(which){
-							return $('<span title="'+which+'" class="'+fl.config.namespace+'-'+which+'"><span>'+fl.config.gallery[which]+'</span></span>').click(function(){
-								$(this).trigger(which+'.'+fl.config.namespace);
-							})
-						};
 
-					$img.after(createNav('previous'))
-						.after(createNav('next'));
+					if ($.fn.detectSwipe && $.fn.detectSwipe.enabled) {
+						fl.$instance.detectSwipe()
+							.on('swipeleft', function()  { fl.$instance.trigger('next'); })
+							.on('swiperight', function() { fl.$instance.trigger('previous'); });
+					} else {
+						var createNav = function(which){
+								return $('<span title="'+which+'" class="'+fl.config.namespace+'-'+which+'"><span>'+fl.config.gallery[which]+'</span></span>').click(function(){
+									$(this).trigger(which+'.'+fl.config.namespace);
+								})
+							};
+
+						$img.after(createNav('previous'))
+							.after(createNav('next'));
+					}
 
 					if(typeof customAfterOpen === 'function') {
 						customAfterOpen.call(this, event);
