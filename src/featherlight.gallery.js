@@ -23,10 +23,7 @@
 
 	/* extend jQuery with selector featherlight method $(elm).featherlight(config, elm); */
 	$.fn.featherlightGallery = function(config) {
-		var flg = {
-				$gallery: this
-			},
-			customAfterOpen = config && config.afterOpen,
+		var customAfterOpen = config && config.afterOpen,
 			overrideCallbacks = {				/* provide an afterOpen function */
 				afterOpen: function(event){
 					var self = this,
@@ -67,7 +64,7 @@
 					self.afterImage.call(self, event);
 				}
 			};
-		this.featherlight($.extend({}, $.featherlightGallery.defaults, flg, config, overrideCallbacks));
+		this.featherlight($.extend({$gallery: this}, $.featherlightGallery.defaults, config, overrideCallbacks));
 		return this;
 	};
 
